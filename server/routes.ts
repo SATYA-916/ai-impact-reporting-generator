@@ -9,9 +9,13 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-// Using provided Gemini API key
+// Using Gemini API key from environment
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("GEMINI_API_KEY environment variable is required");
+}
+
 const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY || "AIzaSyCbXWHJpYn2OYfk9mCM83_pRUQ3EkKfLKA",
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 export async function registerRoutes(

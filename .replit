@@ -38,3 +38,9 @@ author = "agent"
 task = "shell.exec"
 args = "npm run dev"
 waitForPort = 5000
+
+[userenv]
+
+[userenv.shared]
+GEMINI_API_KEY = "AIzaSyCbXWHJpYn2OYfk9mCM83_pRUQ3EkKfLKA"
+MONGO_URI = "mongodb+srv://zywu801:Satya123@cluster0.t47bcbv.mongodb.net/ai_catalog?retryWrites=true&w=majority"

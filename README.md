@@ -1,5 +1,7 @@
 # AI Catalog Builder
 
+An intelligent full-stack application that calculates sustainability impact for eco-friendly purchases and generates AI-powered impact reports using Google Gemini.
+
 ## Prerequisites
 - Node.js (v20+ recommended)
 - npm
@@ -10,6 +12,19 @@ Install the required dependencies:
 npm install
 ```
 
+## Environment Variables Setup
+The application requires two environment variables to run:
+
+1. **GEMINI_API_KEY** - Your Google Gemini API key
+2. **MONGO_URI** - Your MongoDB connection URI
+
+Set these in Replit's Secrets tab:
+- Go to Secrets (lock icon) in your Replit project
+- Add `GEMINI_API_KEY` with your API key value
+- Add `MONGO_URI` with your MongoDB connection string
+
+The application will fail to start if these environment variables are not set.
+
 ## Running the Application
 To start both the backend server and the frontend development server simultaneously:
 ```bash
@@ -17,13 +32,6 @@ npm run dev
 ```
 
 The application will be available at your local preview port.
-
-## Environment Variables
-The application uses the following API keys by default (configured in the code):
-- **MongoDB URI**: `mongodb+srv://zywu801:Satya123@cluster0.t47bcbv.mongodb.net/ai_catalog?retryWrites=true&w=majority`
-- **Gemini API Key**: `AIzaSyCbXWHJpYn2OYfk9mCM83_pRUQ3EkKfLKA`
-
-You can override these by setting `MONGO_URI` and `GEMINI_API_KEY` in your environment variables.
 
 ## Building for Production
 To build the application for production:
@@ -35,3 +43,9 @@ To start the production server:
 ```bash
 npm start
 ```
+
+## Features
+- **Product Catalog**: Browse curated eco-friendly products with impact metrics
+- **Impact Calculator**: Calculate plastic saved and carbon avoided based on quantity
+- **AI-Powered Reports**: Generate human-readable sustainability impact statements using Gemini
+- **MongoDB Storage**: Product data persistence with MongoDB

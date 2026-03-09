@@ -3,7 +3,11 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://zywu801:Satya123@cluster0.t47bcbv.mongodb.net/ai_catalog?retryWrites=true&w=majority";
+if (!process.env.MONGO_URI) {
+  throw new Error("MONGO_URI environment variable is required");
+}
+
+const MONGO_URI = process.env.MONGO_URI;
 
 export async function connectDB() {
   try {
