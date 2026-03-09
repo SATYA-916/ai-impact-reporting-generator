@@ -1,51 +1,31 @@
-# AI Catalog Builder
+# Clean-Slate-AI
 
-An intelligent full-stack application that calculates sustainability impact for eco-friendly purchases and generates AI-powered impact reports using Google Gemini.
+This application has been structured into two distinct Node.js projects: `frontend` and `backend`.
 
-## Prerequisites
-- Node.js (v20+ recommended)
-- npm
+## Project Structure
+- `frontend/`: The React + Vite SPA built dynamically without typescript.
+- `backend/`: The Express + Native NodeJS REST API.
 
-## Installation
-Install the required dependencies:
+## How to Run
+
+Because the applications are entirely decoupled, they must be run in separate terminal tabs/instances.
+
+### 1. Starting the Backend API
+The backend must run for the frontend to communicate with it. It serves requests on port 5000 by default. Look out for the setup configuration in `backend/.env`.
+
 ```bash
+cd backend
 npm install
-```
-
-## Environment Variables Setup
-The application requires two environment variables to run:
-
-1. **GEMINI_API_KEY** - Your Google Gemini API key
-2. **MONGO_URI** - Your MongoDB connection URI
-
-Set these in Replit's Secrets tab:
-- Go to Secrets (lock icon) in your Replit project
-- Add `GEMINI_API_KEY` with your API key value
-- Add `MONGO_URI` with your MongoDB connection string
-
-The application will fail to start if these environment variables are not set.
-
-## Running the Application
-To start both the backend server and the frontend development server simultaneously:
-```bash
 npm run dev
 ```
 
-The application will be available at your local preview port.
+### 2. Starting the Frontend UI
+The UI is built with Vite. Running the dev server will proxy any `/api/*` calls over to the backend server operating on port 5000.
 
-## Building for Production
-To build the application for production:
 ```bash
-npm run build
+cd frontend
+npm install
+npm run dev
 ```
 
-To start the production server:
-```bash
-npm start
-```
-
-## Features
-- **Product Catalog**: Browse curated eco-friendly products with impact metrics
-- **Impact Calculator**: Calculate plastic saved and carbon avoided based on quantity
-- **AI-Powered Reports**: Generate human-readable sustainability impact statements using Gemini
-- **MongoDB Storage**: Product data persistence with MongoDB
+Access the frontend via your browser at the Local URL printed in the second console (typically `http://localhost:5173/`).

@@ -1,0 +1,19 @@
+{
+    "name": "eco-app-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node --watch server.js"
+    },
+    "dependencies": {
+        "@google/genai": "^1.44.0",
+        "cors": "^2.8.5",
+        "dotenv": "^17.3.1",
+        "drizzle-orm": "^0.45.1",
+        "drizzle-zod": "^0.8.3",
+        "express": "^5.0.1",
+        "mongoose": "^9.2.4",
+        "zod": "^3.25.76"
+    }
+}
