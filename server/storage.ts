@@ -1,38 +1,48 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
+import mongoose from "mongoose";
+import { type EcoProduct } from "@shared/schema";
 
-// modify the interface with any CRUD methods
-// you might need
+const ecoProductSchema = new mongoose.Schema({
+  name: String,
+  plastic_saved_per_unit: Number,
+  carbon_saved_per_unit: Number,
+  source: String,
+});
+
+// Use the existing model if already defined
+export const EcoProductModel = mongoose.models.ecoProducts || mongoose.model("ecoProducts", ecoProductSchema, "ecoProducts");
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getProducts(): Promise<any[]>;
+  getProduct(id: string): Promise<any | null>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class MongoStorage implements IStorage {
+  async getProducts() {
+    const products = await EcoProductModel.find({}).exec();
+    return products.map(p => ({
+      id: p._id.toString(),
+      name: p.name,
+      plasticSavedPerUnit: p.plastic_saved_per_unit,
+      carbonSavedPerUnit: p.carbon_saved_per_unit,
+      source: p.source
+    }));
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getProduct(id: string) {
+    try {
+      const p = await EcoProductModel.findById(id).exec();
+      if (!p) return null;
+      return {
+        id: p._id.toString(),
+        name: p.name,
+        plasticSavedPerUnit: p.plastic_saved_per_unit,
+        carbonSavedPerUnit: p.carbon_saved_per_unit,
+        source: p.source
+      };
+    } catch (err) {
+      return null;
+    }
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new MongoStorage();

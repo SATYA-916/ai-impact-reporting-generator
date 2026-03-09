@@ -1,18 +1,32 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+export const ecoProducts = pgTable("eco_products", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  plasticSavedPerUnit: integer("plastic_saved_per_unit").notNull(), // grams
+  carbonSavedPerUnit: real("carbon_saved_per_unit").notNull(), // kg
+  source: text("source").notNull(), // local/imported
 });
 
-export const insertUserSchema = createInsertSchema(users).pick({
-  username: true,
-  password: true,
+export const insertEcoProductSchema = createInsertSchema(ecoProducts).omit({ id: true });
+
+export type EcoProduct = typeof ecoProducts.$inferSelect;
+export type InsertEcoProduct = z.infer<typeof insertEcoProductSchema>;
+
+// Request types
+export const impactReportRequestSchema = z.object({
+  productId: z.string({ required_error: "Product is required" }),
+  quantity: z.number({ required_error: "Quantity is required" }).min(1, "Quantity must be at least 1"),
 });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type User = typeof users.$inferSelect;
+export type ImpactReportRequest = z.infer<typeof impactReportRequestSchema>;
+
+export type ImpactReportResponse = {
+  product_name: string;
+  quantity: number;
+  plastic_saved_kg: number;
+  carbon_avoided_kg: number;
+  impact_statement: string;
+};
